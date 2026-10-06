@@ -68,7 +68,7 @@
             font-weight: bold;
             color: #e0e0e0;
         }
-        input {
+        input, select {
             width: 100%;
             padding: 12px;
             border: 1px solid rgba(255, 255, 255, 0.3);
@@ -79,7 +79,7 @@
             outline: none;
             transition: border 0.3s ease;
         }
-        input:focus {
+        input:focus, select:focus {
             border: 1px solid rgba(255, 255, 255, 0.6);
         }
         button {
@@ -121,7 +121,13 @@
         </div>
         <div class="form-group">
             <label for="role">Роль:</label>
-            <input type="text" id="role" name="role" placeholder="Ваша роль в компании" required>
+            <select id="role" name="role" required>
+                <option value="" disabled selected>Выберите вашу роль</option>
+                <option value="Разработчик">Разработчик</option>
+                <option value="Дизайнер">Дизайнер</option>
+                <option value="Менеджер">Менеджер</option>
+                <option value="Другое">Другое</option>
+            </select>
         </div>
         <button type="submit">Отправить</button>
     </form>
@@ -131,15 +137,31 @@
     document.getElementById('userForm').addEventListener('submit', function(event) {
         event.preventDefault();
         
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
         const role = document.getElementById('role').value;
 
-        if (name) {
-            alert(`Привет, ${name}! Ваша роль: ${role}. Мы получили данные по адресу: ${email}`);
-        } else {
-            alert('Пожалуйста, заполните имя.');
+        // Регулярное выражение для проверки Email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        // Валидация
+        if (name.length < 2) {
+            alert('Ошибка: Имя должно содержать минимум 2 символа.');
+            return;
         }
+
+        if (!emailRegex.test(email)) {
+            alert('Ошибка: Введен неверный формат Email.');
+            return;
+        }
+
+        if (!role) {
+            alert('Ошибка: Пожалуйста, выберите роль.');
+            return;
+        }
+
+        // Если все проверки пройдены
+        alert(`Привет, ${name}! Ваша роль: ${role}. Мы получили данные по адресу: ${email}`);
     });
 </script>
 
