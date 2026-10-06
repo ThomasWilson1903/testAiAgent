@@ -13,8 +13,36 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            overflow: hidden; /* Чтобы анимации не создавали прокрутку */
+            position: relative;
         }
+
+        /* Стили для анимированных пузырьков на фоне */
+        .bubble {
+            position: absolute;
+            bottom: -100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: floatUp 15s infinite ease-in-out;
+            z-index: 0;
+        }
+
+        .bubble:nth-child(1) { width: 80px; height: 80px; left: 10%; animation-duration: 12s; }
+        .bubble:nth-child(2) { width: 120px; height: 120px; left: 25%; animation-duration: 18s; background: rgba(44, 167, 69, 0.2); }
+        .bubble:nth-child(3) { width: 50px; height: 50px; left: 40%; animation-duration: 10s; }
+        .bubble:nth-child(4) { width: 100px; height: 100px; left: 65%; animation-duration: 20s; background: rgba(0, 123, 255, 0.2); }
+        .bubble:nth-child(5) { width: 60px; height: 60px; left: 85%; animation-duration: 14s; }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            50% { opacity: 0.6; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
         .container {
+            position: relative;
+            z-index: 10; /* Чтобы форма была поверх пузырьков */
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
@@ -73,6 +101,12 @@
     </style>
 </head>
 <body>
+
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
 
 <div class="container">
     <h2>Регистрация</h2>
