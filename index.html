@@ -244,6 +244,41 @@
     resize();
     animate();
 
+    /** --- Логика сохранения черновика в localStorage --- **/
+    const storageKey = 'user_form_draft';
+    const formFields = ['name', 'email', 'role'];
+
+    function saveDraft() {
+        const draft = {};
+        formFields.forEach(field => {
+            const element = document.getElementById(field);
+            if (element) draft[field] = element.value;
+        });
+        localStorage.setItem(storageKey, JSON.stringify(draft));
+    }
+
+    function loadDraft() {
+        const savedData = localStorage.getItem(storageKey);
+        if (savedData) {
+            try {
+                const draft = JSON.parse(savedData);
+                formFields.forEach(field => {
+                    const element = document.getElementById(field);
+                    if (element && draft[field]) {
+                        element.value = draft[field];
+                    }
+                });
+            } catch (e) {
+                console.error("Ошибка при загрузке черновика:", e);
+            }
+        }
+    }
+
+    // Запуск автосохранения каждые 500мс
+    setInterval(saveDraft, 500);
+    // Загрузка данных при старте
+    loadDraft();
+
     /** --- Логика формы и переключения экранов --- **/
     const formContainer = document.getElementById('formContainer');
     const previewContainer = document.getElementById('previewContainer');
